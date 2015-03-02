@@ -133,6 +133,7 @@ static int tipswitch4 = 2;
 static int tipSwitches[] = {
   tipswitch1, tipswitch2, tipswitch3, tipswitch4};
   
+//Change this for number of channels
 static const int NChan = 4;
 
 //Band pass butterworth filter order=5 Cut-off frequencies 20 Hz and 450 Hz (alpha1=0.02 alpha2=0.45) 
@@ -190,7 +191,7 @@ void setup(void){
     filters[i] = filter();
   }
   // establish com
-  Serial.begin(115200);  // set baud rate.
+  Serial.begin(230400);  // set baud rate.
 }
 
 long updatetime = 0;
@@ -205,6 +206,8 @@ void loop(){
   }
 }
 
+
+
 void ProcessOutput(void) {
   float val = 0;
   int tmp = 0;
@@ -214,8 +217,6 @@ void ProcessOutput(void) {
     	val = analogRead(analogPins[i]);  // read channel.  10-bit ADC.  returns int
         filtered = filters[i].step(val);
         powers[i] = filtered;
-        //Serial.println(highByte(val)); // 0000 00**  high byte is mostly 0's
-    	//tmp += (lowByte(val)>>(2*i), DEC);
     }
     
     for (int i=0; i < NChan-1; i++) {
